@@ -4,7 +4,7 @@ import logger from "./config/logger";
 const PORT = process.env.BACKEND_PORT || 3000;
 
 app.listen(PORT, () => {
-  logger.info(`Server started successfully`, {
+  logger.info(`Server started successfully => http://localhost:${PORT}/`, {
     port: PORT,
     environment: process.env.NODE_ENV || 'development',
     url: `http://localhost:${PORT}/`,

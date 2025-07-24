@@ -8,7 +8,9 @@ import { swaggerUi, swaggerSpec } from "./config/swagger";
 dotenv.config();
 const app = Express();
 app.use(requestLogger);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+if (process.env.API_DOC_VISIBLE === 'true') {
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 app.use(Express.json());
 
 app.use(routes);

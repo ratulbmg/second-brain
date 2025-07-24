@@ -3,18 +3,16 @@ import routes from "./routes"
 import Express from "express";
 import errorHandler from "./middleware/errorMiddleware";
 import { requestLogger, errorLogger } from "./middleware/loggerMiddleware";
+import { swaggerUi, swaggerSpec } from "./config/swagger";
 
 dotenv.config();
 const app = Express();
-
-// Add request logging middleware (should be first)
 app.use(requestLogger);
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(Express.json());
 
 app.use(routes);
 
-// Add error logging middleware (before error handler)
 app.use(errorLogger);
 app.use(errorHandler);
 

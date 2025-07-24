@@ -10,42 +10,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseRepository = void 0;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
 class BaseRepository {
     constructor(model) {
         this.model = model;
     }
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.model.findMany();
+            return this.model.findMany();
         });
     }
     findById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.model.findUnique({
+            return this.model.findUnique({
                 where: { id },
             });
         });
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.model.create({
-                data: data,
+            return this.model.create({
+                data,
             });
         });
     }
     update(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.model.update({
+            return this.model.update({
                 where: { id },
-                data: data,
+                data,
             });
         });
     }
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.model.delete({
+            return this.model.delete({
                 where: { id },
             });
         });

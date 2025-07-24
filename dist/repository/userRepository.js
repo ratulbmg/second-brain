@@ -8,20 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
-const client_1 = require("@prisma/client");
 const baseRepository_1 = require("./baseRepository");
-const prisma = new client_1.PrismaClient();
+const db_1 = __importDefault(require("../lib/db"));
 class UserRepository extends baseRepository_1.BaseRepository {
     constructor() {
-        super(prisma.user);
+        super(db_1.default.user);
     }
-    findOne(where) {
+    findUser(where) {
         return __awaiter(this, void 0, void 0, function* () {
-            return prisma.user.findFirst({
-                where,
-            });
+            return db_1.default.user.findFirst({ where });
         });
     }
 }

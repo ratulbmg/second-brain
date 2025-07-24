@@ -3,11 +3,11 @@ import path from 'path';
 
 // Define log levels
 const levels = {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    debug: 4,
+    error: 0,    // Highest priority (most severe)
+    warn: 1,     // Warning level
+    info: 2,     // Information level
+    http: 3,     // HTTP request level
+    debug: 4,    // Debug level (lowest priority)
 };
 
 // Define colors for each level

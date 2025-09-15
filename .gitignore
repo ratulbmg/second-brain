@@ -1,8 +1,6 @@
-node_modules
-dist
+backend/node_modules
+backend/dist
 
-logs/
-
-.env
-*.log
-todo.md
+backend/.env
+backend/logs/*.log
+backend/todo.md

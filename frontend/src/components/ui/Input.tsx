@@ -2,17 +2,18 @@ import React, { useId, type ForwardedRef } from "react";
 
 
 type InputProps = {
-    label: string;
+    label?: string;
     value?: string;
     placeholder?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disable?: boolean;
     type?: string;
+    className?:string;
 }
 
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(function InputField(
-    { label, value, onChange, type = 'text', placeholder, disable = false, ...props },
+    { label, value, onChange, type = 'text', placeholder, disable = false, className , ...props },
     ref: ForwardedRef<HTMLInputElement>
 ) {
     const id = useId();
@@ -30,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function InputField
                 onChange={onChange}
                 placeholder={placeholder}
                 disabled={disable}
-                className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+                className={`w-full text-[#A1A1A1] text-[0.9em] border-b border-[#2F2F2F] px-[12px] py-[7px] focus:outline-none focus:border-b-white transition-border duration-150 ${className}`}
                 ref={ref}
                 {...props}
                 id={id}

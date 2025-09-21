@@ -7,8 +7,8 @@ import ThemeToggle, { type Theme } from './ui/ThemeToggle';
 export {
     Button,
     Input,
+    Header,
+    Footer,
     ThemeToggle,
     type Theme,
-    Header,
-    Footer
 };

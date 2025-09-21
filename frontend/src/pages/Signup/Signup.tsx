@@ -4,7 +4,7 @@ import { cn } from '../../utils';
 const Signup: React.FC = () => {
     return (
         <>
-            <div className={cn('flex flex-col items-center justify-center h-screen w-screen')}></div>
+            <div className={cn('flex flex-col text-white bg-black items-center justify-center h-screen w-screen')}>Signup</div>
         </>
     )
 }

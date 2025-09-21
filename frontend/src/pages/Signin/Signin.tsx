@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '../../components';
-import { cn } from '../../utils';
+import { cn, type StandardErrorResponse } from '../../utils';
 import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,12 +9,6 @@ type SigninFormData = {
     email: string;
     password: string;
 };
-
-type LoginError = {
-    message: string;
-    errors: string | null;
-};
-
 
 const Signin: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SigninFormData>();
@@ -30,21 +24,27 @@ const Signin: React.FC = () => {
             const response = await login(data);
             console.log('Login successful:', response);
 
-            // Store token in localStorage or handle authentication state
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userName', response.data.name);
-
-            // Redirect or update app state here
             navigate('/dashboard');
 
         } catch (error: unknown) {
-            const loginError = error as LoginError;
-            setLoginError(loginError.message || 'Login failed');
+            const loginError = error as StandardErrorResponse;
+            const errorMessage = loginError.data?.message || 'Login failed';
+            const errorDetails = loginError.data?.errors;
+
+            setLoginError(errorDetails ? `${errorMessage}: ${errorDetails}` : errorMessage);
         } finally {
             setIsLoading(false);
         }
     };
 
+    // const handelThemeChange = () => {
+    //     const currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+    //     document.documentElement.classList.toggle('dark');
+    //     localStorage.setItem('theme', currentTheme);
+    // }
+    
     return (
         <div className={cn('flex flex-col items-center justify-center h-screen w-screen')}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">

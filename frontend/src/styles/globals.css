@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
     *,
     *::before,
@@ -15,4 +17,8 @@
         font-family: sans-serif;
         overflow-x: hidden;
     }
+}
+
+@theme {
+
 }

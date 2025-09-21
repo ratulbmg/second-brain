@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 import { apiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
 import { ZodError } from "zod";
 import logger from "../config/logger";
 
@@ -13,23 +14,35 @@ const errorHandler: ErrorRequestHandler = (err, req: Request, res: Response, nex
         statusCode: err.statusCode || 500,
     });
 
+    let statusCode = 500;
+    let errorMessage = "Internal Server Error";
+    let errors = null;
+
     if (err instanceof apiError) {
-        res.status(err.statusCode).json({
-            message: err.message,
-            errors: err.errors || null,
-        });
+        statusCode = err.statusCode;
+        errorMessage = err.message;
+        errors = err.errors || null;
     } else if (err instanceof ZodError) {
-        res.status(400).json({
-            message: "Validation failed",
-            errors: err.errors[0].message
-        });
+        statusCode = 400;
+        errorMessage = "Validation failed";
+        errors = err.errors[0].message;
     } else {
-        // Handle generic errors
-        res.status(500).json({
-            message: "Internal Server Error",
-            error: err.message || "Something went wrong",
-        });
+        statusCode = 500;
+        errorMessage = "Internal Server Error";
+        errors = err.message || "Something went wrong";
     }
+
+    // Use ApiResponse format for consistent error responses
+    const errorResponse = new ApiResponse(
+        statusCode,
+        {
+            message: errorMessage,
+            errors: errors
+        },
+        "null"
+    );
+
+    res.status(statusCode).json(errorResponse);
 };
 
 export default errorHandler;

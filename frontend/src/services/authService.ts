@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from 'axios';
 import config from '../config/config';
+import { handleApiError } from '../utils';
 
 interface LoginCredentials {
     email: string;
@@ -16,11 +17,6 @@ interface LoginSuccessResponse {
     success: true;
 }
 
-interface LoginErrorResponse {
-    message: string;
-    errors: string | null;
-}
-
 const apiClient = axios.create({
     baseURL: config.apiendpointurl,
     headers: {
@@ -33,13 +29,6 @@ export const login = async (credentials: LoginCredentials): Promise<LoginSuccess
         const response: AxiosResponse<LoginSuccessResponse> = await apiClient.post('/login', credentials);
         return response.data;
     } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-            const errorData: LoginErrorResponse = error.response?.data || {
-                message: 'Network Error',
-                errors: null
-            };
-            throw errorData;
-        }
-        throw { message: 'Unknown error occurred', errors: null };
+        throw handleApiError(error);
     }
 };

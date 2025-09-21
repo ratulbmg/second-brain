@@ -112,8 +112,12 @@ const authrouter = Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *             example:
- *               message: "Validation failed"
- *               errors: "Name must be at least 3 characters long."
+ *               statusCode: 400
+ *               data:
+ *                 message: "Validation failed"
+ *                 errors: "Name must be at least 3 characters long."
+ *               message: "null"
+ *               success: flase
  *       409:
  *         description: User with email already exists
  *         content:
@@ -121,14 +125,25 @@ const authrouter = Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *             example:
- *               message: "User with email already exists"
- *               errors: null
+ *               statusCode: 409
+ *               data:
+ *                 message: "User with email already exists"
+ *                 errors: null
+ *               message: "null"
+ *               success: flase
  *       500:
  *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *             example:
+ *               statusCode: 500
+ *               data:
+ *                 message: "Internal Server Error"
+ *                 errors: "Error message"
+ *               message: "null"
+ *               success: flase
  */
 authrouter.route("/register").post(registerUser);
 
@@ -168,8 +183,12 @@ authrouter.route("/register").post(registerUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *             example:
- *               message: "Validation failed"
- *               errors: "Please enter a valid email address"
+ *               statusCode: 400
+ *               data:
+ *                 message: "Validation failed"
+ *                 errors: "Please enter a valid email address"
+ *               message: "null"
+ *               success: flase
  *       401:
  *         description: Unauthorized user
  *         content:
@@ -177,14 +196,25 @@ authrouter.route("/register").post(registerUser);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  *             example:
- *               message: "Unauthorized user"
- *               errors: null
+ *               statusCode: 401
+ *               data:
+ *                 message: "Unauthorized user"
+ *                 errors: null
+ *               message: "null"
+ *               success: flase
  *       500:
  *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *             example:
+ *               statusCode: 500
+ *               data:
+ *                 message: "Internal Server Error"
+ *                 errors: "Error message"
+ *               message: "null"
+ *               success: flase
  */
 authrouter.route("/login").post(loginUser);
 /**

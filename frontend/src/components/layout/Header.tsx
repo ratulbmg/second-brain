@@ -1,21 +1,32 @@
 import { useNavigate } from 'react-router-dom';
 import { cn } from '../../utils';
+import HoverBorderGradient from '../ui/hover-border-gradient';
 
 const Header: React.FC =() => {
 
     let navigate = useNavigate()
+    // let backColor1 = 'bg-gradient-to-r from-gray-700 to-gray-900'
 
     return (
         <>
-            <div className={cn('fixed text-center bg-transparent text-white w-screen h-20 flex justify-around items-center gap-10 z-10')}>
-                <div className='flex justify-center items-center'><h1 className='font-bold text-2xl'>S - BRAIN</h1></div>
+            <div className={cn('fixed top-0 text-center shadow-sm w-screen h-16 flex justify-around items-center z-10 backdrop-blur-md ')}>
+                <div className='flex justify-center items-center italic bg-[#181818] rounded-full p-1 '>
+                    <HoverBorderGradient containerClassName="rounded-full" className="p-0 dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
+                        <span onClick={()=> navigate('/')} className={`px-4 py-1 rounded-full font-bold text-white bg-transparent shadow-md`}>S- <span>BRAIN</span></span>
+                    </HoverBorderGradient>
+                </div>
                 <div className='flex justify-center items-center gap-8'>
-                    <div onClick={()=> navigate('/signin')} className='flex justify-center items-center bg-transparent hover:bg-black text-white hover:shadow-[0px_2px_2px_rgba(255,255,255,0.7)] hover:-translate-y-0.5 active:scale-95 transition duration-200 px-4 py-1 rounded-2xl cursor-pointer'>
-                        <p>Sign In</p>
-                    </div>
-                    <div onClick={()=> navigate('/signup')} className='flex justify-center items-center bg-transparent hover:bg-black text-white hover:shadow-[0px_2px_2px_rgba(255,255,255,0.7)] hover:-translate-y-0.5 active:scale-95 transition duration-200 px-4 py-1 rounded-2xl cursor-pointer'>
-                        <p>Sign Up</p>
-                    </div>
+                    <HoverBorderGradient containerClassName="rounded-full" className=" transition-all duration-500 active:scale-95 h-7 w-[90px] flex justify-center items-center space-x-2 cursor-pointer">
+                        <div onClick={()=> navigate('/signin')}>
+                            <p>Sign In</p>
+                        </div>
+                    </HoverBorderGradient>
+
+                    <HoverBorderGradient containerClassName="rounded-full" className=" transition-all duration-500 active:scale-95 h-7 w-[90px] flex justify-center items-center space-x-2 cursor-pointer">
+                        <div onClick={()=> navigate('/signup')}>
+                            <p>Sign Up</p>
+                        </div>
+                    </HoverBorderGradient>
                 </div>
             </div>
         </>

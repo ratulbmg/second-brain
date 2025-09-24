@@ -1,6 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import Layout from "./Layout";
 import { Signin } from "../pages";
+import Home from "../pages/Home/Home";
 // import All_coll from "../pages/all_collection/All_collection";
 // import SocialPost from "../pages/social_post/SocialPost";
 // import Videos from "../pages/videos/Videos";
@@ -12,6 +13,7 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <>
         <Route element={<Layout/>}>
+            <Route path="/" element={<Home/>}/>
             <Route path='signin' element={<Signin />} />
             {/* <Route path='signup' element={<Signup />} /> */}
         </Route>

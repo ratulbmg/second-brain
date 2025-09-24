@@ -27,7 +27,7 @@ const Header: React.FC =() => {
 
     return (
         <>
-            <div className={cn(' text-center shadow-sm w-screen h-16 flex justify-around items-center z-10 backdrop-blur-md ')}>
+            <div className={cn('fixed top-0 text-center shadow-sm w-screen h-16 flex justify-around items-center bg-white z-10 backdrop-blur-md px-10')}>
                 <div className='flex justify-center items-center italic bg-[#181818] rounded-full p-1 '>
                     <HoverBorderGradient containerClassName="rounded-full" className="p-0 dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
                         <span onClick={()=> navigate('/')} className={`px-4 py-1 rounded-full font-bold text-white bg-transparent shadow-md`}>S- <span>BRAIN</span></span>
@@ -41,7 +41,7 @@ const Header: React.FC =() => {
                         </NavLink>
                     ))}
                 </div>
-                <div className='flex justify-center items-center gap-8 bg-black text-white'>
+                <div className='rounded-full flex justify-center items-center gap-8 bg-black text-white'>
                     {/* <HoverBorderGradient containerClassName="rounded-full" className=" transition-all duration-500 active:scale-95 h-7 w-[90px] flex justify-center items-center space-x-2 cursor-pointer"> */}
                         {status ? (
                             <button>
@@ -49,12 +49,11 @@ const Header: React.FC =() => {
                             </button>
                         ) : (
                             <>
-                                <button onClick={() => setIsOpen(true)}>
-                                    Sign in
+                                <button onClick={() => setIsOpen(true)} className=' flex justify-center items-center py-2 px-4 cursor-pointer'>
+                                    Join Us
                                 </button>
-                                <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} onSubmit={() => setIsOpen(false)}>
-                                    <div className="h-[20vh] w-[30vw] bg-black rounded-lg z-10">
-                                    </div>
+                                <Modal isOpen={isOpen} onClose={() =>  setIsOpen(false)} onSubmit={() => setIsOpen(false)}>
+                                    <Signin />
                                 </Modal>
                             </>
                         )}

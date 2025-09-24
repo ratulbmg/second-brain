@@ -1,4 +1,5 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import type { AppDispatch } from "../store";
 
 export interface AuthState {
     status: boolean;
@@ -21,8 +22,20 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.user = action.payload.user;
         },
+        logout: (state) => {
+            state.status = false;
+            state.token = null;
+            state.user = null;
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+        },
     }
 });
 
+export const logoutUser = () => (dispatch: AppDispatch) => {
+    dispatch(logout());
+}
+
+export const { logout } = authSlice.actions;
 export const { setAuth } = authSlice.actions;
 export default authSlice.reducer

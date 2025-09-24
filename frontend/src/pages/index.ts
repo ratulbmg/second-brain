@@ -1,10 +1,8 @@
-import Dashboard from './dashboard/Dashboard';
-import Signin from './Signin/Signin';
-import Signup from './Signup/Signup';
+import Dashboard from './Dashboard/Dashboard';
+import Home from './Home/Home';
 
 
 export { 
     Dashboard,
-    Signin,
-    Signup
+    Home
 };

@@ -10,7 +10,9 @@ import { HiDocumentText } from 'react-icons/hi2';
 import { IoLinkSharp } from 'react-icons/io5';
 import Modal from '../ui/Modal';
 import { useState } from 'react';
-import { Signin } from '../../pages';
+import SignInUp from '../Forms/SignInUp';
+import { logoutUser } from '../../redux/slices/AuthSlice';
+// import ThemeToggle from '../ui/ThemeToggle';
 
 const Header: React.FC =() => {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +26,10 @@ const Header: React.FC =() => {
         { name: "Docs", path: "/docs", active: true, icon: <HiDocumentText fontSize="20px" />},
         { name: "Links", path: "/links", active: true, icon: <IoLinkSharp fontSize="20px" />}
     ]
+    const handelLogout = () => {
+        dispatch(logoutUser())
+        navigate('/')
+    }
 
     return (
         <>
@@ -41,23 +47,26 @@ const Header: React.FC =() => {
                         </NavLink>
                     ))}
                 </div>
-                <div className='rounded-full flex justify-center items-center gap-8 bg-black text-white'>
-                    {/* <HoverBorderGradient containerClassName="rounded-full" className=" transition-all duration-500 active:scale-95 h-7 w-[90px] flex justify-center items-center space-x-2 cursor-pointer"> */}
-                        {status ? (
-                            <button>
+
+                {/* <div className='themeBtn'>
+                    <ThemeToggle />
+                </div> */}
+
+                <div className='rounded-sm py-2 px-4 bg-black text-white cursor-pointer'>
+                    {status ? (
+                            <button onClick={handelLogout} className='cursor-pointer'>
                                 Logout
                             </button>
                         ) : (
                             <>
-                                <button onClick={() => setIsOpen(true)} className=' flex justify-center items-center py-2 px-4 cursor-pointer'>
-                                    Join Us
+                                <button onClick={() => setIsOpen(true)} className='cursor-pointer'>
+                                    Login
                                 </button>
                                 <Modal isOpen={isOpen} onClose={() =>  setIsOpen(false)} onSubmit={() => setIsOpen(false)}>
-                                    <Signin />
+                                    <SignInUp onSuccess={() => setIsOpen(false)} />
                                 </Modal>
                             </>
-                        )}
-                    {/* </HoverBorderGradient> */}
+                    )}
                 </div>
             </div>
         </>

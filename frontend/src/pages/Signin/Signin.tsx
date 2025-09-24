@@ -4,6 +4,9 @@ import { Button, Input } from '../../components';
 import { cn, type StandardErrorResponse } from '../../utils';
 import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../redux/slices/AuthSlice';
+import type { AppDispatch } from '../../redux/store';
 
 type SigninFormData = {
     email: string;
@@ -15,6 +18,7 @@ const Signin: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [loginError, setLoginError] = useState<string | null>(null);
     const navigate = useNavigate()
+    const dispatch = useDispatch<AppDispatch>()
 
     const onSubmit = async (data: SigninFormData) => {
         setIsLoading(true);
@@ -25,8 +29,13 @@ const Signin: React.FC = () => {
             console.log('Login successful:', response);
 
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userName', response.data.name);
-            navigate('/dashboard');
+            localStorage.setItem('user', response.data.name);
+            dispatch(setAuth({
+                status: true,
+                token: response.data.token,
+                user: response.data.name
+            }));
+            // navigate('/dashboard');
 
         } catch (error: unknown) {
             const loginError = error as StandardErrorResponse;
@@ -38,12 +47,6 @@ const Signin: React.FC = () => {
             setIsLoading(false);
         }
     };
-
-    // const handelThemeChange = () => {
-    //     const currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-    //     document.documentElement.classList.toggle('dark');
-    //     localStorage.setItem('theme', currentTheme);
-    // }
     
     return (
         <>

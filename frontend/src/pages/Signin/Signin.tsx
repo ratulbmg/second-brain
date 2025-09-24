@@ -50,7 +50,7 @@ const Signin: React.FC = () => {
     
     return (
         <>
-            <div className={cn("bg-[url('https://images.unsplash.com/photo-1517547196086-e63b7ae6afb0?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]","bg-center bg-no-repeat bg-cover bg-blend-overlay",'flex flex-col items-center justify-center h-screen w-full relative')}>
+            <div className={cn('bg-transparent flex flex-col items-center justify-center h-screen w-full relative')}>
                 <div className='blurCover absolute inset-0 bg-black/10 backdrop-blur-[1px] flex flex-col items-center justify-center h-screen w-full '>
                     <form 
                         onSubmit={handleSubmit(onSubmit)} 

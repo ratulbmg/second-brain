@@ -1,7 +1,7 @@
 import { Request } from "express";
-import { createToken } from "../lib/jwt";
+import { createToken, verifyToken } from "../lib/jwt";
 import { apiError } from "../utils/apiError";
-import { UserLoginResponse, UserRegisterRequest, UserLoginRequest } from "../model/userModel";
+import { UserLoginResponse, UserRegisterRequest, UserLoginRequest, UserDetailsResponse } from "../model/userModel";
 import { repositoryWrapper } from "../repository/repositoryWrapper";
 import logger from "../config/logger";
 
@@ -19,7 +19,7 @@ class AuthService {
             throw new apiError("User with email already exists", 409);
         }
 
-        const token = await createToken({ name: req.name }, "7d");
+        const token = await createToken({ name: req.name, email: req.email }, "7d");
         if (!token) {
             logger.error('Token generation failed during registration');
             throw new apiError("Token generation failed", 500);
@@ -49,7 +49,7 @@ class AuthService {
             throw new apiError("Unauthorized user", 401);
         }
 
-        const token = await createToken({ name: isUserExist.name }, "7d");
+        const token = await createToken({ name: isUserExist.name, email: isUserExist.email }, "7d");
         if (!token) {
             logger.error('Token generation failed during login');
             throw new apiError("Token generation failed", 500);
@@ -60,6 +60,20 @@ class AuthService {
         return {
             name: isUserExist.name,
             token,
+        };
+    }
+
+    async meAccount(token: string): Promise<UserDetailsResponse> {
+        logger.info('User details attempt', { token });
+        const decoded = await verifyToken(token);
+        // Fetch all data from the database and send 
+
+        
+        return {
+            name : decoded.name,
+            email: decoded.email,
+            totalLinks: 16, // TODO: get total links from the database
+            totalSharedLinks: 3, // TODO: get total shared links from the database
         };
     }
 }

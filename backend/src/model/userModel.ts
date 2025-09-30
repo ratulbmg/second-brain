@@ -13,3 +13,10 @@ export interface UserLoginResponse {
     name: string;
     token: string;
 }
+
+export interface UserDetailsResponse {
+    name: string;
+    email: string;
+    totalLinks: number;
+    totalSharedLinks: number;
+}

@@ -45,6 +45,26 @@ const authrouter = Router();
  *           type: string
  *         success:
  *           type: boolean
+ *     UserDetailsResponse:
+ *       type: object
+ *       properties:
+ *         statusCode:
+ *           type: integer
+ *         data:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *             email:
+ *               type: string
+ *             totalLinks:
+ *               type: integer
+ *             totalSharedLinks:
+ *               type: integer
+ *         message:
+ *           type: string
+ *         success:
+ *           type: boolean
  *     LoginRequest:
  *       type: object
  *       required:
@@ -66,6 +86,11 @@ const authrouter = Router();
  *           type: string
  *         errors:
  *           type: string
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  */
 
 /**
@@ -117,7 +142,7 @@ const authrouter = Router();
  *                 message: "Validation failed"
  *                 errors: "Name must be at least 3 characters long."
  *               message: "null"
- *               success: flase
+ *               success: false
  *       409:
  *         description: User with email already exists
  *         content:
@@ -130,7 +155,7 @@ const authrouter = Router();
  *                 message: "User with email already exists"
  *                 errors: null
  *               message: "null"
- *               success: flase
+ *               success: false
  *       500:
  *         description: Internal server error
  *         content:
@@ -143,7 +168,7 @@ const authrouter = Router();
  *                 message: "Internal Server Error"
  *                 errors: "Error message"
  *               message: "null"
- *               success: flase
+ *               success: false
  */
 authrouter.route("/register").post(registerUser);
 
@@ -188,7 +213,7 @@ authrouter.route("/register").post(registerUser);
  *                 message: "Validation failed"
  *                 errors: "Please enter a valid email address"
  *               message: "null"
- *               success: flase
+ *               success: false
  *       401:
  *         description: Unauthorized user
  *         content:
@@ -201,7 +226,7 @@ authrouter.route("/register").post(registerUser);
  *                 message: "Unauthorized user"
  *                 errors: null
  *               message: "null"
- *               success: flase
+ *               success: false
  *       500:
  *         description: Internal server error
  *         content:
@@ -214,58 +239,73 @@ authrouter.route("/register").post(registerUser);
  *                 message: "Internal Server Error"
  *                 errors: "Error message"
  *               message: "null"
- *               success: flase
+ *               success: false
  */
 authrouter.route("/login").post(loginUser);
+
 /**
  * @swagger
  * /me:
  *   get:
- *     summary: Get current user information
+ *     summary: Get current user details
  *     tags: [Authentication]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: User information retrieved successfully
+ *         description: User details retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: integer
- *                     name:
- *                       type: string
- *                     email:
- *                       type: string
- *                     emailVerified:
- *                       type: boolean
- *                     createdAt:
- *                       type: string
- *                       format: date-time
- *                 message:
- *                   type: string
- *                 success:
- *                   type: boolean
+ *               $ref: '#/components/schemas/UserDetailsResponse'
+ *             example:
+ *               statusCode: 200
+ *               data:
+ *                 name: "John Doe"
+ *                 email: "john@example.com"
+ *                 totalLinks: 16
+ *                 totalSharedLinks: 3
+ *               message: "User Details"
+ *               success: true
  *       401:
- *         description: Unauthorized - Invalid or missing token
+ *         description: Unauthorized - Invalid or expired token
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               invalidToken:
+ *                 summary: Invalid token
+ *                 value:
+ *                   statusCode: 401
+ *                   data:
+ *                     message: "Invalid token / Token expired"
+ *                     errors: null
+ *                   message: "null"
+ *                   success: false
+ *               expiredToken:
+ *                 summary: Expired token
+ *                 value:
+ *                   statusCode: 401
+ *                   data:
+ *                     message: "Token expired"
+ *                     errors: null
+ *                   message: "null"
+ *                   success: false
  *       500:
  *         description: Internal server error
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
+ *             example:
+ *               statusCode: 500
+ *               data:
+ *                 message: "Internal Server Error"
+ *                 errors: "Error message"
+ *               message: "null"
+ *               success: false
  */
-authrouter.route("/me").get(meAccount)
+authrouter.route("/me").get(meAccount);
 
 export default authrouter;

@@ -20,11 +20,11 @@ const Header: React.FC =() => {
     const dispatch = useDispatch<AppDispatch>()
     const status = useSelector((state: RootState) => state.auth.status)
     const navItems = [
-        { name: "All Collection", path: "/all_collection", active: true, icon: <MdOutlineClearAll fontSize="20px" />},
-        { name: "Social Post", path: "/social_post", active: true, icon: <SiSocialblade fontSize="20px" />},
-        { name: "Videos", path: "/videos", active: true, icon: <RxVideo fontSize="20px" />},
-        { name: "Docs", path: "/docs", active: true, icon: <HiDocumentText fontSize="20px" />},
-        { name: "Links", path: "/links", active: true, icon: <IoLinkSharp fontSize="20px" />}
+        { name: "All Collection", path: "/dashboard/all", active: true, icon: <MdOutlineClearAll fontSize="20px" />},
+        { name: "Social Post", path: "/dashboard/twitter", active: true, icon: <SiSocialblade fontSize="20px" />},
+        { name: "Videos", path: "/dashboard/youtube", active: true, icon: <RxVideo fontSize="20px" />},
+        { name: "Docs", path: "/dashboard/docs", active: true, icon: <HiDocumentText fontSize="20px" />},
+        { name: "Links", path: "/dashboard/links", active: true, icon: <IoLinkSharp fontSize="20px" />}
     ]
     const handelLogout = () => {
         dispatch(logoutUser())
@@ -39,14 +39,16 @@ const Header: React.FC =() => {
                         <span onClick={()=> navigate('/')} className={`px-4 py-1 rounded-full font-bold text-white bg-transparent shadow-md`}>S- <span>BRAIN</span></span>
                     </HoverBorderGradient>
                 </div>
-                <div className={cn(`m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full flex justify-between items-center px-[6px]`)}>
-                    {navItems.map((item) => (
-                        <NavLink to={item.path} className={({ isActive }) => cn("hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150", isActive ? "bg-black text-white" : "bg-transparent text-black")}>
-                            {item.icon}
-                            <p className={cn("cursor-pointer")}>{item.name}</p>
-                        </NavLink>
-                    ))}
-                </div>
+                {status && (
+                    <div className={cn(`m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full flex justify-between items-center px-[6px]`)}>
+                        {navItems.map((item) => (
+                            <NavLink to={item.path} className={({ isActive }) => cn("hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150", isActive ? "bg-black text-white" : "bg-transparent text-black")}>
+                                {item.icon}
+                                <p className={cn("cursor-pointer")}>{item.name}</p>
+                            </NavLink>
+                        ))}
+                    </div>
+                )}
 
                 {/* <div className='themeBtn'>
                     <ThemeToggle />

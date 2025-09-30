@@ -1,29 +1,22 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { Dashboard, Home } from "../pages";
+import { Home, Dashboard, Allcollection, Twitter, Youtube, Docs, Links } from "../pages";
 import Layout from "./Layout";
-// import All_coll from "../pages/all_collection/All_collection";
-// import SocialPost from "../pages/social_post/SocialPost";
-// import Videos from "../pages/videos/Videos";
-// import Docs from "../pages/docs/Docs";
-// import Links from "../pages/links/Links";
-// import InerLayout from "./InerLayout";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-        <Route element={<Layout/>}>
-            <Route path="/" element={<Home/>}/>
-            <Route path='/dashboard' element={<Dashboard />} />
+        <Route path="/" element={<Layout/>}>
+            <Route path="" element={<Home/>}/>
+            <Route path="dashboard">
+                <Route path="" element={<Dashboard />} />
+                <Route path="all" element={<Allcollection />}/>
+                <Route path="twitter" element={<Twitter/>}/>
+                <Route path="youtube" element={<Youtube/>}/>
+                <Route path="docs" element={<Docs/>}/>
+                <Route path="links" element={<Links/>}/>
+            </Route>
         </Route>
         
-        {/* <Route path='/' element={<InerLayout/>}>
-            <Route path='/' element={<Dashboard />} />
-            <Route path="all_collection" element={<All_coll/>}/>
-            <Route path="social_post" element={<SocialPost/>}/>
-            <Route path="videos" element={<Videos/>}/>
-            <Route path="docs" element={<Docs/>}/>
-            <Route path="links" element={<Links/>}/>
-        </Route> */}
         </>
     )
 )

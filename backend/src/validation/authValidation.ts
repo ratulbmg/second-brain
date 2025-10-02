@@ -1,6 +1,9 @@
 import z from "zod"
 
 export const registerUserSchema = z.object({
+    uniqueId: z
+        .string({message : "Please enter Unique Id"})
+        .trim(),
     name: z
         .string({message : "Please enter Name"})
         .trim()

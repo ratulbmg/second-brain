@@ -10,6 +10,7 @@ datasource db {
 
 model User {
   id            Int         @id @default(autoincrement())
+  uniqueId      String?     @unique @default(cuid()) @db.VarChar(100)
   name          String      @db.VarChar(100)
   email         String      @unique @db.VarChar(320)
   password      String      @db.VarChar(255)
@@ -27,19 +28,23 @@ model Tag {
 
 model Content {
   id            Int         @id @default(autoincrement())
+  uniqueId      String?     @unique @default(cuid()) @db.VarChar(100)
   title         String      @db.VarChar(100)
   content       String      @db.Text
   url           String      @db.VarChar(100)
   createdAt     DateTime    @default(now())
-  tagId         Int
-  userId        Int
+  tagId         Int         
+  userId        Int         
+  linkId        Int?        @unique
   tag           Tag         @relation(fields: [tagId], references: [id])
   user          User        @relation(fields: [userId], references: [id])
+  link          Link?       @relation(fields: [linkId], references: [id])
 }
 
 model Link {
   id            Int         @id @default(autoincrement())
   hashedUrl     String      @unique
   userId        Int
+  content       Content?     
   user          User        @relation(fields: [userId], references: [id])
 }

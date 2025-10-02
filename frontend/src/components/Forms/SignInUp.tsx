@@ -7,6 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../redux/slices/AuthSlice';
 import type { AppDispatch } from '../../redux/store';
+import { jwtDecode, type JwtPayload } from 'jwt-decode';
+
+interface CustomJwtPayload extends JwtPayload {
+    name: string;
+    uniqueId: string;
+}
 
 interface SignInUpProps {
     onSuccess?: () => void;
@@ -43,12 +49,17 @@ const SignInUp: React.FC<SignInUpProps> = ({onSuccess}) => {
 
             } else {
                 const response = await login(data);
+                const decodedToken = jwtDecode<CustomJwtPayload>(response.data.token);
+
+
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('user', response.data.name);
+                localStorage.setItem('user', decodedToken.name);
+                localStorage.setItem('uniqueId', decodedToken.uniqueId);
                 dispatch(setAuth({
                     status: true,
                     token: response.data.token,
-                    user: response.data.name
+                    user: decodedToken.name,
+                    uniqueId: decodedToken.uniqueId
                 }));
                 onSuccess?.();
                 navigate('/dashboard');

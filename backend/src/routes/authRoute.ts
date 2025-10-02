@@ -10,10 +10,14 @@ const authrouter = Router();
  *     User:
  *       type: object
  *       required:
+ *         - uniqueId
  *         - name
  *         - email
  *         - password
  *       properties:
+ *         uniqueId:
+ *           type: string
+ *           description: User's unique ID
  *         name:
  *           type: string
  *           minLength: 3
@@ -113,6 +117,7 @@ const authrouter = Router();
  *           schema:
  *             $ref: '#/components/schemas/User'
  *           example:
+ *             uniqueId: "1234567890"
  *             name: "John Doe"
  *             email: "john@example.com"
  *             password: "password123"

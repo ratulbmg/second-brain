@@ -1,4 +1,5 @@
 export interface UserRegisterRequest {
+    uniqueId: string;
     name: string;
     email: string;
     password: string;

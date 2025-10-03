@@ -13,6 +13,30 @@ class ContentRepository extends BaseRepository<Content> {
     async findContent(where: Partial<Content>): Promise<Content | null> {
         return prisma.content.findFirst({ where })
     }
+
+    // This method is used to get the total links by tag id and by user
+    async getTotalLinksCountByTagIdAndByUser(userId: number, tagId: number): Promise<number> {
+        return prisma.content.count({ where: { tagId , userId }})
+    }
+
+    // This method is used to get the total links count by user
+    async getTotalLinksCountByUser(userId: number,): Promise<number> {
+        return prisma.content.count({ where: { userId }})
+    }
+
+    // Pagination method for getting content with offset and limit
+    async getContentWithPagination(userId: number, tagId?: number, offset: number = 0, limit: number = 10): Promise<Content[]> {
+        const where = tagId && tagId > 0 ? { tagId, userId: userId } : {};
+
+        return prisma.content.findMany({
+            where,
+            skip: offset,
+            take: limit,
+            orderBy: {
+                createdAt: 'desc' // or { id: 'asc' } based on your preference
+            }
+        });
+    }
 }
 
 export { ContentRepository }

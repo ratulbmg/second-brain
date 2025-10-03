@@ -8,6 +8,7 @@ declare global {
     namespace Express {
         interface Request {
             user?: JWTPayload;
+            uniqueId?: string;
         }
     }
 }
@@ -27,6 +28,7 @@ const authenticateToken = async (req: Request, res: Response, next: NextFunction
 
         const decoded = await verifyToken(token);
         req.user = decoded; // Attach user to request
+        req.uniqueId = decoded.uniqueId; // Attach uniqueId to request
 
         logger.info('User authenticated successfully', {
             uniqueId: decoded.uniqueId,

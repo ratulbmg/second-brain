@@ -60,19 +60,13 @@ class ContentService {
 
     async getContentById(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
         // TODO check with the link id after create link serice.
-        const contentId = req.params.id;
+        const contentId = Number(req.params.id);
 
         logger.info('Content retrieval attempt', { contentId });
 
         const user = await this.getCurrentUser(req.uniqueId);
 
-        // Validate numeric values
-        if (isNaN(Number(contentId))) {
-            logger.warn('Content retrieval failed: Invalid ID format', { contentId });
-            throw new apiError("Invalid content ID format", 400);
-        }
-
-        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
         if (!content) {
             logger.warn('Content retrieval failed: Content not found', { contentId });
             throw new apiError("Content not found", 404);
@@ -96,54 +90,32 @@ class ContentService {
     }
 
     async getAllContentsByRangeAndTag(req: Request & { uniqueId?: any }): Promise<ContentResponseWithRange> {
-        const tagId = req.query.tagId as string;
-        const page = req.query.page as string;
-        const limit = req.query.limit as string;
+        const tagId = Number(req.query.tagId);
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
 
         logger.info('Get all contents attempt', { tagId, page, limit });
 
         const user = await this.getCurrentUser(req.uniqueId);
 
-        // Validate required parameters
-        if (!tagId || !page || !limit) {
-            logger.warn('Get contents failed: Missing required parameters', { tagId, page, limit });
-            throw new apiError("tagId, page, and limit parameters are required", 400);
-        }
-
-        // Validate numeric values
-        if (isNaN(Number(tagId)) || isNaN(Number(page)) || isNaN(Number(limit))) {
-            logger.warn('Get contents failed: Invalid parameter format', { tagId, page, limit });
-            throw new apiError("Parameters must be valid numbers", 400);
-        }
-
-        const tagIdNum = Number(tagId);
-        const pageNum = Number(page);
-        const limitNum = Number(limit);
-
-        // Validate pagination parameters
-        if (pageNum < 1 || limitNum < 1) {
-            logger.warn('Get contents failed: Invalid pagination parameters', { page: pageNum, limit: limitNum });
-            throw new apiError("Page must be >= 1 and limit must be >= 1", 400);
-        }
-
-        logger.info('Contents retrieved successfully', { tagId: tagIdNum, start: pageNum, end: limitNum });
+        logger.info('Contents retrieved successfully', { tagId: tagId, start: page, end: limit });
 
         let TotalLinks: number;
-        if (tagIdNum > 0) {
-            TotalLinks = await repositoryWrapper.contentRepository.getTotalLinksCountByTagIdAndByUser(user.id, tagIdNum);
+        if (tagId > 0) {
+            TotalLinks = await repositoryWrapper.contentRepository.getTotalLinksCountByTagIdAndByUser(user.id, tagId);
         } else {
             TotalLinks = await repositoryWrapper.contentRepository.getTotalLinksCountByUser(user.id);
         }
 
         // Calculate offset
-        const skip = (pageNum - 1) * limitNum;
+        const skip = (page - 1) * limit;
 
         // Get contents
         const contents = await repositoryWrapper.contentRepository.getContentWithPagination(
             user.id,
-            tagIdNum,
+            tagId,
             skip,
-            limitNum
+            limit
         );
 
         // map contents to ContentResponse format
@@ -165,41 +137,35 @@ class ContentService {
             })
         );
 
-        const totalPages = Math.ceil(TotalLinks / limitNum);
+        const totalPages = Math.ceil(TotalLinks / limit);
 
-        logger.info('Contents retrieved successfully', { tagId: tagIdNum, page: pageNum, limit: limitNum, totalLinks: TotalLinks, returnedCount: contentResponses.length });
+        logger.info('Contents retrieved successfully', { tagId: tagId, page: page, limit: limit, totalLinks: TotalLinks, returnedCount: contentResponses.length });
 
         return {
             totalLinks: TotalLinks,
-            currentPage: pageNum,
+            currentPage: page,
             totalPages: totalPages,
-            itemsPerPage: limitNum,
-            hasNextPage: pageNum < totalPages,
-            hasPreviousPage: pageNum > 1,
+            itemsPerPage: limit,
+            hasNextPage: page < totalPages,
+            hasPreviousPage: page > 1,
             contents: contentResponses
         };
     }
 
     async deleteContent(req: Request & { uniqueId?: any }): Promise<{ message: string }> {
-        const contentId = req.params.id;
+        const contentId = Number(req.params.id);
 
         logger.info('Content deletion attempt', { contentId });
 
         const user = await this.getCurrentUser(req.uniqueId);
 
-        // Validate numeric values
-        if (isNaN(Number(contentId))) {
-            logger.warn('Content deletion failed: Invalid ID format', { contentId });
-            throw new apiError("Invalid content ID format", 400);
-        }
-
-        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
         if (!content) {
             logger.warn('Content deletion failed: Content not available', { contentId });
             throw new apiError("Content not available", 404);
         }
 
-        const response = await repositoryWrapper.contentRepository.deleteContent(Number(contentId), user.id);
+        const response = await repositoryWrapper.contentRepository.deleteContent(contentId, user.id);
 
         if (!response) {
             logger.warn('Content deletion failed: Content not found or not owned by user', { contentId, userId: user.id });
@@ -214,27 +180,21 @@ class ContentService {
     }
 
     async updateContent(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
-        const contentId = req.params.id;
+        const contentId = Number(req.params.id);
         const newContent = req.body;
         
         const user = await this.getCurrentUser(req.uniqueId);
 
         logger.info('Content update attempt', { contentId, userId: user.id });
         
-        // Validate numeric values
-        if (isNaN(Number(contentId))) {
-            logger.warn('Content update failed: Invalid ID format', { contentId });
-            throw new apiError("Invalid content ID format", 400);
-        }
-        
-        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: contentId, userId: user.id});
         if (!content) {
             logger.warn('Content update failed: Content not found', { contentId });
             throw new apiError("Content not found", 404);
         }
         
         // Update the content with new data
-        const updatedContent = await repositoryWrapper.contentRepository.update(Number(contentId), {
+        const updatedContent = await repositoryWrapper.contentRepository.update(contentId, {
             title: newContent.title || content.title,
             content: newContent.content || content.content,
             url: newContent.url || content.url,

@@ -20,7 +20,7 @@ class ContentService {
     }
 
     async registerContent(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
-        const request = req.body;
+        const request: ContentRegisterRequest = req.body;
         // TODO check with the link id after create link serice.
         logger.info('Content registration attempt', { uniqueId: request.uniqueId, title: request.title, content: request.content, url: request.url, tagId: request.tagId, linkId: request.linkId });
         const user = await this.getCurrentUser(request.uniqueId);
@@ -60,27 +60,28 @@ class ContentService {
 
     async getContentById(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
         // TODO check with the link id after create link serice.
-        const id = req.params.id;
+        const contentId = req.params.id;
 
-        logger.info('Content retrieval attempt', { id });
+        logger.info('Content retrieval attempt', { contentId });
 
         const user = await this.getCurrentUser(req.uniqueId);
-        
-        if (isNaN(Number(id))) {
-            logger.warn('Content retrieval failed: Invalid ID format', { id });
+
+        // Validate numeric values
+        if (isNaN(Number(contentId))) {
+            logger.warn('Content retrieval failed: Invalid ID format', { contentId });
             throw new apiError("Invalid content ID format", 400);
         }
 
-        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(id), userId: user.id});
+        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
         if (!content) {
-            logger.warn('Content retrieval failed: Content not found', { id });
+            logger.warn('Content retrieval failed: Content not found', { contentId });
             throw new apiError("Content not found", 404);
         }
 
         const tag = await repositoryWrapper.tagRepository.findById(content.tagId!);
         const link = content.linkId ? await repositoryWrapper.linkRepository.findById(content.linkId!) : null;
 
-        logger.info('Content retrieved successfully', { id, uniqueId: content.uniqueId, title: content.title });
+        logger.info('Content retrieved successfully', { contentId, uniqueId: content.uniqueId, title: content.title });
 
         return {
             id: content.id,
@@ -179,7 +180,86 @@ class ContentService {
         };
     }
 
-    
+    async deleteContent(req: Request & { uniqueId?: any }): Promise<{ message: string }> {
+        const contentId = req.params.id;
+
+        logger.info('Content deletion attempt', { contentId });
+
+        const user = await this.getCurrentUser(req.uniqueId);
+
+        // Validate numeric values
+        if (isNaN(Number(contentId))) {
+            logger.warn('Content deletion failed: Invalid ID format', { contentId });
+            throw new apiError("Invalid content ID format", 400);
+        }
+
+        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
+        if (!content) {
+            logger.warn('Content deletion failed: Content not available', { contentId });
+            throw new apiError("Content not available", 404);
+        }
+
+        const response = await repositoryWrapper.contentRepository.deleteContent(Number(contentId), user.id);
+
+        if (!response) {
+            logger.warn('Content deletion failed: Content not found or not owned by user', { contentId, userId: user.id });
+            throw new apiError("Content not found or access denied", 404);
+        }
+
+        logger.info('Content deleted successfully', { contentId, userId: user.id });
+
+        return {
+            message: "Content deleted successfully"
+        };
+    }
+
+    async updateContent(req: Request & { uniqueId?: any }): Promise<ContentResponse> {
+        const contentId = req.params.id;
+        const newContent = req.body;
+        
+        const user = await this.getCurrentUser(req.uniqueId);
+
+        logger.info('Content update attempt', { contentId, userId: user.id });
+        
+        // Validate numeric values
+        if (isNaN(Number(contentId))) {
+            logger.warn('Content update failed: Invalid ID format', { contentId });
+            throw new apiError("Invalid content ID format", 400);
+        }
+        
+        const content = await repositoryWrapper.contentRepository.findContent({ id: Number(contentId), userId: user.id});
+        if (!content) {
+            logger.warn('Content update failed: Content not found', { contentId });
+            throw new apiError("Content not found", 404);
+        }
+        
+        // Update the content with new data
+        const updatedContent = await repositoryWrapper.contentRepository.update(Number(contentId), {
+            title: newContent.title || content.title,
+            content: newContent.content || content.content,
+            url: newContent.url || content.url,
+            tagId: newContent.tagId || content.tagId,
+            linkId: newContent.linkId !== undefined ? newContent.linkId : content.linkId,
+        });
+
+        logger.info('Content updated successfully', { contentId, userId: user.id });
+
+        const tag = await repositoryWrapper.tagRepository.findById(updatedContent.tagId!);
+        const link = updatedContent.linkId ? await repositoryWrapper.linkRepository.findById(updatedContent.linkId!) : null;
+
+        return {
+            id: updatedContent.id,
+            uniqueId: updatedContent.uniqueId!,
+            title: updatedContent.title,
+            content: updatedContent.content,
+            url: updatedContent.url,
+            userId: updatedContent.userId,
+            tag: tag?.name || "Untagged",
+            link: link?.hashedUrl
+        };
+
+    }
+
 }
 
 export default ContentService;

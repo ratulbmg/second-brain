@@ -14,6 +14,11 @@ class ContentRepository extends BaseRepository<Content> {
         return prisma.content.findFirst({ where })
     }
 
+    // This method is used to delete a content by id and user id
+    async deleteContent(id: number, userId: number): Promise<Content | null> {
+        return prisma.content.delete({ where: { id, userId } })
+    }
+
     // This method is used to get the total links by tag id and by user
     async getTotalLinksCountByTagIdAndByUser(userId: number, tagId: number): Promise<number> {
         return prisma.content.count({ where: { tagId , userId }})

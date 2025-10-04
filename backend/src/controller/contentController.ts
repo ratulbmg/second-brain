@@ -2,12 +2,10 @@ import { Request, Response } from "express";
 import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/apiResponse";
 import { contentService } from "../service";
-import { apiError } from "../utils/apiError";
 
 export const registerContent = asyncHandler(async (req: Request, res: Response) => {
     // TODO: validate the request body if necessary
     const response = await contentService.registerContent(req);
-    // const response = await contentService.registerContent({ ...req.body, userUniqueId: req.userUniqueId });
     res.status(200).json(
         new ApiResponse(200, response, "Content Registration successfully")
     );
@@ -30,14 +28,16 @@ export const getAllContentsByRangeAndTag = asyncHandler(async (req: Request, res
 });
 
 export const deleteContent = asyncHandler(async (req: Request, res: Response) => {
-    const response = "test delete content"
+    // TODO: validate the request body if necessary
+    const response = await contentService.deleteContent(req);
     res.status(200).json(
         new ApiResponse(200, response, "Content Deleted")
     );
 });
 
 export const updateContent = asyncHandler(async (req: Request, res: Response) => {
-    const response = "test update content"
+    // TODO: validate the request body if necessary
+    const response = await contentService.updateContent(req);
     res.status(200).json(
         new ApiResponse(200, response, "Content Update successfully")
     );

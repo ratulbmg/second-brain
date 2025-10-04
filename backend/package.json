@@ -8,10 +8,8 @@
     "dev": "nodemon src/index.ts",
     "migrate": "prisma migrate dev",
     "generate": "prisma generate",
-    "db:seed": "ts-node prisma/seed.ts"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:reset": "npx prisma migrate reset"
   },
   "keywords": [],
   "author": "",

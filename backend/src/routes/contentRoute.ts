@@ -8,7 +8,7 @@ const contentrouter = Router();
 contentrouter.post("/register-content", authenticateToken, registerContent);
 contentrouter.get("/get-content-by-id/:id", authenticateToken, getContentById);
 contentrouter.get("/get-all-contents-by-range-and-tag", authenticateToken, getAllContentsByRangeAndTag);
-contentrouter.delete("/delete-content", authenticateToken, deleteContent);
-contentrouter.put("/update-content", authenticateToken, updateContent);
+contentrouter.delete("/delete-content/:id", authenticateToken, deleteContent);
+contentrouter.put("/update-content/:id", authenticateToken, updateContent);
 
 export default contentrouter;

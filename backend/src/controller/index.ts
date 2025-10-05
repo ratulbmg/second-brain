@@ -1,5 +1,6 @@
 import { registerUser, loginUser, meAccount } from "./authController";
 import { registerContent, getContentById, getAllContentsByRangeAndTag, deleteContent, updateContent } from "./contentController";
+import { getAllTags } from "./tagController";
 
 export {
     registerUser,
@@ -9,5 +10,6 @@ export {
     getContentById,
     getAllContentsByRangeAndTag,
     deleteContent,
-    updateContent
+    updateContent,
+    getAllTags
 }

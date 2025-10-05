@@ -189,7 +189,7 @@ const contentrouter = Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-contentrouter.post("/register-content", authenticateToken, registerContent);
+contentrouter.route("/register-content").post(authenticateToken, registerContent);
 
 /**
  * @swagger
@@ -247,7 +247,7 @@ contentrouter.post("/register-content", authenticateToken, registerContent);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-contentrouter.get("/get-content-by-id/:id", authenticateToken, getContentById);
+contentrouter.route("/get-content-by-id/:id").get(authenticateToken, getContentById);
 
 /**
  * @swagger
@@ -325,7 +325,7 @@ contentrouter.get("/get-content-by-id/:id", authenticateToken, getContentById);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-contentrouter.get("/get-all-contents-by-range-and-tag", authenticateToken, getAllContentsByRangeAndTag);
+contentrouter.route("/get-all-contents-by-range-and-tag").get(authenticateToken, getAllContentsByRangeAndTag);
 
 /**
  * @swagger
@@ -376,8 +376,7 @@ contentrouter.get("/get-all-contents-by-range-and-tag", authenticateToken, getAl
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-contentrouter.delete("/delete-content/:id", authenticateToken, deleteContent);
-
+contentrouter.route("/delete-content/:id").delete(authenticateToken, deleteContent);
 /**
  * @swagger
  * /update-content/{id}:
@@ -446,6 +445,6 @@ contentrouter.delete("/delete-content/:id", authenticateToken, deleteContent);
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-contentrouter.put("/update-content/:id", authenticateToken, updateContent);
+contentrouter.route("/update-content/:id").put(authenticateToken, updateContent);
 
 export default contentrouter;

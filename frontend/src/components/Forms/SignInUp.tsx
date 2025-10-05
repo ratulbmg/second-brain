@@ -76,13 +76,11 @@ const SignInUp: React.FC<SignInUpProps> = ({onSuccess}) => {
         }
     };
 
-    return (
-        <>
-            <div className='h-auto max-w-sm w-[20vw] rounded-xl'>
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className={cn('bg-[#262626] m-auto w-full rounded-lg border-none')}
-                >
+    return ( 
+        <> 
+
+            <div className='z-[90] flex justify-center items-center'>
+                <form onSubmit={handleSubmit(onSubmit)} className={cn('bg-[#262626] m-auto w-[280px] sm:w-[20em] md:w-[22em] rounded-lg border-2 border-[#2b2b2b] shadow-[1.95px_1.95px_2.6px_rgba(255,255,255,0.4)]')}>
                     <div className={cn('bg-card rounded-lg border-none p-8 bg-[#171717]')}>
                         <h1 className={cn('text-xl text-white font-semibold')}>
                             {isSignUp ? 'Sign Up' : 'Sign In'}
@@ -141,8 +139,8 @@ const SignInUp: React.FC<SignInUpProps> = ({onSuccess}) => {
                         </div>
                     </div>
 
-                    <div className={cn('h-15 flex justify-center items-center')}>
-                        <h1 className={cn('text-[0.9em] text-white')}>
+                    <div className={cn('h-15 flex justify-center items-center px-2')}>
+                        <h1 className={cn('text-[0.8em] text-white')}>
                             {isSignUp ? "Already have an account?" : "Don't have an account?"}
                             <span
                                 onClick={toggleMode}

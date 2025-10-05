@@ -1,146 +1,127 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { cn } from '../../utils';
-import HoverBorderGradient from '../ui/hover-border-gradient';
 import type { AppDispatch, RootState } from '../../redux/store';
 import { SiSocialblade } from 'react-icons/si';
 import { MdOutlineClearAll } from 'react-icons/md';
 import { RxVideo } from 'react-icons/rx';
 import { HiDocumentText } from 'react-icons/hi2';
 import { IoLinkSharp } from 'react-icons/io5';
+import { CiMenuKebab } from "react-icons/ci";
 import Modal from '../ui/Modal';
 import { useState } from 'react';
 import SignInUp from '../Forms/SignInUp';
 import { logoutUser } from '../../redux/slices/AuthSlice';
-import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
-// import ThemeToggle from '../ui/ThemeToggle';
+import ThemeToggle from '../ui/ThemeToggle';
+import { motion } from 'framer-motion';
 
-const Header: React.FC =() => {
+const Header: React.FC = () => {
+    const [loginIsOpen, setLoginIsOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [openMenu, setOpenMenu] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch<AppDispatch>()
     const status = useSelector((state: RootState) => state.auth.status)
     const navItems = [
-        { name: "All Collection", path: "/dashboard/all", active: true, icon: <MdOutlineClearAll fontSize="20px" />},
-        { name: "Social Post", path: "/dashboard/twitter", active: true, icon: <SiSocialblade fontSize="20px" />},
-        { name: "Videos", path: "/dashboard/youtube", active: true, icon: <RxVideo fontSize="20px" />},
-        { name: "Docs", path: "/dashboard/docs", active: true, icon: <HiDocumentText fontSize="20px" />},
-        { name: "Links", path: "/dashboard/links", active: true, icon: <IoLinkSharp fontSize="20px" />}
+        { name: "All Collection", path: "/dashboard/all", active: true, icon: <MdOutlineClearAll fontSize="20px" /> },
+        { name: "Social Post", path: "/dashboard/twitter", active: true, icon: <SiSocialblade fontSize="20px" /> },
+        { name: "Videos", path: "/dashboard/youtube", active: true, icon: <RxVideo fontSize="20px" /> },
+        { name: "Docs", path: "/dashboard/docs", active: true, icon: <HiDocumentText fontSize="20px" /> },
+        { name: "Links", path: "/dashboard/links", active: true, icon: <IoLinkSharp fontSize="20px" /> }
     ]
     const handelLogout = () => {
         dispatch(logoutUser())
         navigate('/')
     }
 
-    function showMenu(){
-        setOpenMenu(true)
-    }
-
-    function closeMenu(){
-        setOpenMenu(false)
-    }
-
     return (
         <>
-            <div style={{position:'fixed', top:'0'}} className={cn('relative text-center shadow-sm w-full h-16 flex justify-between items-center bg-white z-50 backdrop-blur-md px-4 md:px-10')}>
-                <div className='relative overflow-hidden flex justify-center items-center italic bg-[#181818] rounded-full p-1 '>
-                    <HoverBorderGradient containerClassName="rounded-full" className="w-full h-full p-0 bg-black text-white flex items-center">
-                        <span onClick={()=> navigate('/')} className={`w-full h-full px-4 py-1 rounded-full font-bold text-white bg-transparent shadow-md`}>S-BRAIN</span>
-                    </HoverBorderGradient>
-                </div>
-
+            <div className={cn('fixed w-full h-16 flex justify-between items-center bg-white px-10 z-50')}>
                 {status ? (
-                    <div className={cn(`m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full hidden lg:flex justify-between items-center px-[6px]`)}>
-                        {navItems.map((item) => (
-                            <NavLink key={item.name} to={item.path} className={({ isActive }) => cn("hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150", isActive ? "bg-black text-white" : "bg-transparent text-black")}>
-                                {item.icon}
-                                <p className={cn("cursor-pointer")}>{item.name}</p>
-                            </NavLink>
-                        ))}
-                    </div>
+                    <>
+                        <div className='lg:hidden'>
+                            <button onClick={() => setIsOpen(!isOpen)}> <CiMenuKebab fontSize="35px" /> </button>
+                        </div>
+                        <div id="logo" className={cn('hidden lg:block')}>
+                            <h1 onClick={() => navigate('/')} className={cn(' px-4 py-1 rounded-full font-bold text-white bg-black')}>S-BRAIN</h1>
+                        </div>
+                        <div id="nav-items" className={cn('hidden lg:block')}>
+                            {status && (
+                                <div className={cn(`m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full flex justify-between items-center px-[6px]`)}>
+                                    {navItems.map((item) => (
+                                        <NavLink key={item.name} to={item.path} className={({ isActive }) => cn("hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150", isActive ? "bg-black text-white" : "bg-transparent text-black")}>
+                                            {item.icon}
+                                            <p className={cn("cursor-pointer")}>{item.name}</p>
+                                        </NavLink>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </>
                 ) : (
-                    <div className={cn(``)}>
+                    <div id="logo">
+                        <h1 onClick={() => navigate('/')} className={cn(' px-4 py-1 rounded-full font-bold text-white bg-black')}>S-BRAIN</h1>
                     </div>
                 )}
 
-                {/* <div className='themeBtn'>
-                    <ThemeToggle />
-                </div> */}
-
-                <div className='hidden lg:block rounded-sm py-2 px-4 text-black cursor-pointer'>
-                    {status ? (
-                        <button onClick={handelLogout} className='font-[500] text-[#ff0000] cursor-pointer'>
-                            Logout
-                        </button>
-                        ) : (
-                        <>
-                        <button onClick={() => setIsOpen(true)} className='font-[500] cursor-pointer'>
-                            Login
-                        </button>
-                        <Modal isOpen={isOpen} onClose={() =>  setIsOpen(false)} onSubmit={() => setIsOpen(false)}>
-                            <SignInUp onSuccess={() => setIsOpen(false)} />
-                        </Modal>
-                        </>
-                    )}
-                </div>
-
-                <div className={cn(`lg:hidden`)}>
-                    <div onClick={showMenu}>
-                        <RxHamburgerMenu fontSize={'25px'}/>
+                <div id="auth-items" className='flex items-center gap-4'>
+                    <div>
+                        <ThemeToggle />
                     </div>
-                    <div className={cn("flex flex-col justify-start items-start absolute left-0 w-full h-screen transition-all duration-300 ease-in-out z-50 bg-white", openMenu ? "top-0" : '-top-[74em]' )}>
-                        <div className=' w-[100%] h-auto flex justify-between items-center px-4 py-4 border-b-1 border-[#dfdfdf]'>
-                            <div className='brnad'>
-                                <div className='relative overflow-hidden flex justify-center items-center italic bg-[#181818] rounded-full p-1 '>
-                                    <HoverBorderGradient containerClassName="rounded-full" className="w-full h-full p-0 bg-black text-white flex items-center">
-                                        <span onClick={()=> navigate('/')} className={`w-full h-full text-[12px] sm:text-[16px] px-4 py-1 rounded-full font-bold text-white bg-transparent shadow-md`}>S-BRAIN</span>
-                                    </HoverBorderGradient>
-                                </div>
-                            </div>
-
-                            <div onClick={closeMenu} className='h-auto flex justify-end'>
-                                <RxCross2 fontSize={'25px'}/>
-                            </div>
-                        </div>
-
-                        <div className='h-full w-full flex flex-col justify-center items-center'> 
-                            <div className='miniHeader w-full flex flex-col items-start justify-start pl-10 pt-8 gap-7'>
-                                {status ? (
-                                    <div className='flex flex-col justify-start gap-7'>
-                                        {navItems.map((itm)=> (
-                                            <NavLink key={itm.name} to={itm.path} className={({ isActive }) => cn('flex justify-start items-center w-auto active:scale-90 transition-all duration-75', isActive ? " text-[#6a6a6a]" : "bg-transparent text-black")}>
-                                                <p className='flex justify-center items-center gap-4 font-[400] text-[30px]'>{itm.icon}{itm.name}</p>
-                                            </NavLink>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className=''>
-                                    </div>
-                                )}
-
-                            </div>
-                            <div className='miniModal m-auto w-full h-[46%] flex justify-center items-end '>
-                                {status ? (
-                                    <button onClick={handelLogout} className='flex justify-center items-center w-[50%] font-[400] text-[20px] active:scale-90 transition-all duration-75 px-5 bg-[#ff0000] text-[#ffffff]'>
-                                        Logout
-                                    </button>
-                                    ) : (
-                                    <>
-                                    <button onClick={() => setIsOpen(true)} className='flex justify-center items-center w-[50%] font-[400] text-[20px] active:scale-90 transition-all duration-75 px-5 bg-[#0062ff]  text-[#ffffff]'>
-                                        Login
-                                    </button>
-                                    <Modal isOpen={isOpen} onClose={() =>  setIsOpen(false)} onSubmit={() => setIsOpen(false)}>
-                                        <SignInUp onSuccess={() => setIsOpen(false)} />
-                                    </Modal>
-                                    </>
-                                )}
-                            </div>
-                        </div>
+                    <div className='rounded-sm py-2 px-4 cursor-pointer'>
+                        {status ? (
+                            <button onClick={handelLogout} className='font-medium text-[#ff0000] cursor-pointer'>
+                                Logout
+                            </button>
+                        ) : (
+                            <>
+                                <button onClick={() => setLoginIsOpen(true)} className='font-[500] text-black  cursor-pointer'>
+                                    Login
+                                </button>
+                                <Modal isOpen={loginIsOpen} onClose={() => setLoginIsOpen(false)} onSubmit={() => setLoginIsOpen(false)}>
+                                    <SignInUp onSuccess={() => setLoginIsOpen(false)} />
+                                </Modal>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Menu Panel */}
+            <motion.nav
+                className={cn("lg:hidden fixed top-0 left-0 h-full w-80 bg-white z-50")}
+                initial={{ x: '-100%' }}
+                animate={{ x: isOpen ? 0 : '-100%' }}
+                transition={{
+                    duration: 0.3,
+                    ease: "easeInOut"
+                }}
+            >
+                <div className="p-6">
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className={cn('text-black')}>S-BRAIN</h1>
+                        <h1 onClick={() => setIsOpen(false)} ><RxCross2 fontSize="35px" /></h1>
+                    </div>
+                    <div className="border-t pt-6"> </div>
+                    {status && (
+                        <div className="mb-8">
+                            <ul className="space-y-4">
+                                {navItems.map((item) => (
+                                    <li key={item.name}>
+                                        <NavLink
+                                            to={item.path}
+                                            onClick={() => setIsOpen(false)}
+                                            className={({ isActive }) => cn("flex items-center gap-3 p-3 rounded-lg transition-all duration-150", isActive ? "bg-black text-white" : "hover:bg-gray-100")} >
+                                            {item.icon}
+                                            <span>{item.name}</span>
+                                        </NavLink>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </motion.nav>
         </>
     )
 }

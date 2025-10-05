@@ -5,8 +5,8 @@ import Layout from "./Layout";
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
+        <Route path="*" element={<Unauthorised/>}/>
         <Route path="/" element={<Layout/>}>
-            <Route path="*" element={<Unauthorised/>}/>
             <Route path="" element={<Home/>}/>
             <Route path="dashboard">
                 <Route path="" element={<Dashboard />} />

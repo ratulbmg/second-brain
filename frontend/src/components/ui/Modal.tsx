@@ -18,9 +18,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         }
     };
 
-    return (
-        <div onClick={handleBackdropClick} className={cn("fixed z-20 w-screen h-screen inset-0 bg-white/25 backdrop-blur-sm flex justify-center items-center")}>
-            <div className={cn("w-auto h-auto flex justify-center items-center")}>
+    return ( 
+        <div onClick={handleBackdropClick} className={cn(" absolute z-[90] w-screen h-screen inset-0 bg-[#212121f0] flex justify-center items-center cursor-default")}>
+            <div className={cn("flex justify-center items-center")}>
                 {children}
             </div>
         </div>

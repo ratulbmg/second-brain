@@ -2,9 +2,16 @@ import axios, { type AxiosResponse } from 'axios';
 import config from '../config/config';
 import { handleApiError } from '../utils';
 
-interface LoginCredentials {
+export interface LoginCredentials {
     email: string;
     password: string;
+}
+
+export interface SignupCredentials {
+    name: string;
+    email: string;
+    password: string;
+    uniqueId?: string;
 }
 
 interface LoginSuccessResponse {
@@ -27,6 +34,15 @@ const apiClient = axios.create({
 export const login = async (credentials: LoginCredentials): Promise<LoginSuccessResponse> => {
     try {
         const response: AxiosResponse<LoginSuccessResponse> = await apiClient.post('/login', credentials);
+        return response.data;
+    } catch (error: unknown) {
+        throw handleApiError(error);
+    }
+};
+
+export const signup = async (credentials: SignupCredentials): Promise<LoginSuccessResponse> => {
+    try {
+        const response: AxiosResponse<LoginSuccessResponse> = await apiClient.post('/register', credentials);
         return response.data;
     } catch (error: unknown) {
         throw handleApiError(error);

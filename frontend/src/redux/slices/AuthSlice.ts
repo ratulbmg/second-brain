@@ -25,6 +25,12 @@ const authSlice = createSlice({
             state.user = action.payload.user;
             state.uniqueId = action.payload.uniqueId;
         },
+        signup: (state, action: PayloadAction<AuthState>) => {
+            state.status = action.payload.status;
+            state.token = action.payload.token;
+            state.user = action.payload.user;
+            state.uniqueId = action.payload.uniqueId;
+        },
         logout: (state) => {
             state.status = false;
             state.token = null;

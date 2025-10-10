@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Input } from '../../components';
-import { cn, type StandardErrorResponse } from '../../utils';
 import { login, signup } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../redux/slices/AuthSlice';
 import type { AppDispatch } from '../../redux/store';
 import { jwtDecode, type JwtPayload } from 'jwt-decode';
+import type { StandardErrorResponse } from '../../utils';
+import { cn } from '../../utils';
 
 interface CustomJwtPayload extends JwtPayload {
     name: string;
@@ -76,7 +77,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
     };
 
     return (
-        <div className='z-[90] flex justify-center items-center'>
+        <div className={cn('z-[90] flex justify-center items-center')}>
             <form onSubmit={handleSubmit(onSubmit)} className={cn('bg-[#262626] m-auto w-[280px] sm:w-[20em] md:w-[22em] rounded-lg border-2 border-[#2b2b2b] shadow-[1.95px_1.95px_2.6px_rgba(255,255,255,0.4)]')}>
                 <div className={cn('bg-card rounded-lg border-none p-8 bg-[#171717]')}>
                     <h1 className={cn('text-xl text-white font-semibold')}>
@@ -142,8 +143,7 @@ const SignInUp: React.FC<SignInUpProps> = ({ onSuccess }) => {
                         {isSignUp ? "Already have an account?" : "Don't have an account?"}
                         <span
                             onClick={toggleMode}
-                            className={cn('cursor-pointer font-bold ml-1 hover:text-gray-300 transition-colors')}
-                        >
+                            className={cn('cursor-pointer font-bold ml-1 hover:text-gray-300 transition-colors')}>
                             {isSignUp ? 'Sign in!' : 'Sign up, it\'s free!'}
                         </span>
                     </h1>

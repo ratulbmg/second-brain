@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = (props) => {
                 onClick={props.onClick}
                 type="submit"
                 disabled={props.disabled}
-                className={cn(baseClasses, variantClasses[props.variant], props.className, props.disabled && 'opacity-50 cursor-not-allowed ')}
+                className={cn(`${baseClasses} ${variantClasses[props.variant]} ${props.className} ${props.disabled && 'opacity-50 cursor-not-allowed '}`)}
             >
                 {props.children}
             </button>

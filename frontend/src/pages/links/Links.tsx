@@ -1,5 +1,4 @@
-import { cn } from '../../utils';
-
+import { cn } from "../../utils";
 const Links: React.FC = () => {
     return (
         <>

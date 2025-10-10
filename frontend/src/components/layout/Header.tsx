@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { cn } from '../../utils';
 import type { AppDispatch, RootState } from '../../redux/store';
 import { SiSocialblade } from 'react-icons/si';
 import { MdOutlineClearAll } from 'react-icons/md';
@@ -15,6 +14,7 @@ import { logoutUser } from '../../redux/slices/AuthSlice';
 import { RxCross2 } from "react-icons/rx";
 import ThemeToggle from '../ui/ThemeToggle';
 import { motion } from 'framer-motion';
+import { cn } from '../../utils';
 
 const Header: React.FC = () => {
     const [loginIsOpen, setLoginIsOpen] = useState(false);
@@ -36,10 +36,10 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <div className={cn('fixed w-full h-16 flex justify-between items-center bg-white px-10 z-50')}>
+            <div className={cn('fixed w-full h-16 flex justify-between items-center bg-white dark:bg-gray-800 px-10 z-50')} >
                 {status ? (
                     <>
-                        <div className='lg:hidden'>
+                        <div className={cn('lg:hidden')}>
                             <button onClick={() => setIsOpen(!isOpen)}> <CiMenuKebab fontSize="35px" /> </button>
                         </div>
                         <div id="logo" className={cn('hidden lg:block')}>
@@ -47,9 +47,9 @@ const Header: React.FC = () => {
                         </div>
                         <div id="nav-items" className={cn('hidden lg:block')}>
                             {status && (
-                                <div className={cn(`m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full flex justify-between items-center px-[6px]`)}>
+                                <div className={cn('m-auto max-w-[640px] w-full h-[45px] bg-white rounded-full flex justify-between items-center px-[6px]')}>
                                     {navItems.map((item) => (
-                                        <NavLink key={item.name} to={item.path} className={({ isActive }) => cn("hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150", isActive ? "bg-black text-white" : "bg-transparent text-black")}>
+                                        <NavLink key={item.name} to={item.path} className={({ isActive }) => cn(`hover:scale-[0.9] hover:shadow-[0_1px_3px_rgba(0,0,0,0.4),_0_1px_2px_rgba(0,0,0,0.06)] rounded-full px-4 py-1 flex justify-center items-center gap-1 transition-all duration-150 ${isActive ? "bg-black text-white" : "bg-transparent text-black"}`)}>
                                             {item.icon}
                                             <p className={cn("cursor-pointer")}>{item.name}</p>
                                         </NavLink>
@@ -64,18 +64,18 @@ const Header: React.FC = () => {
                     </div>
                 )}
 
-                <div id="auth-items" className='flex items-center gap-4'>
+                <div id="auth-items" className={cn('flex items-center gap-4')}>
                     <div>
                         <ThemeToggle />
                     </div>
-                    <div className='rounded-sm py-2 px-4 cursor-pointer'>
+                    <div className={cn('rounded-sm py-2 px-4 cursor-pointer')}>
                         {status ? (
-                            <button onClick={handelLogout} className='font-medium text-[#ff0000] cursor-pointer'>
+                            <button onClick={handelLogout} className={cn('font-medium text-[#ff0000] cursor-pointer')}>
                                 Logout
                             </button>
                         ) : (
                             <>
-                                <button onClick={() => setLoginIsOpen(true)} className='font-[500] text-black  cursor-pointer'>
+                                <button onClick={() => setLoginIsOpen(true)} className={cn('font-[500] text-black  cursor-pointer')}>
                                     Login
                                 </button>
                                 <Modal isOpen={loginIsOpen} onClose={() => setLoginIsOpen(false)} onSubmit={() => setLoginIsOpen(false)}>
@@ -97,21 +97,21 @@ const Header: React.FC = () => {
                     ease: "easeInOut"
                 }}
             >
-                <div className="p-6">
-                    <div className="flex justify-between items-center mb-8">
-                        <h1 className={cn('text-black')}>S-BRAIN</h1>
+                <div className={cn("p-6")}>
+                    <div className={cn("flex justify-between items-center mb-8")}>
+                        <h1 className={cn("text-black")}>S-BRAIN</h1>
                         <h1 onClick={() => setIsOpen(false)} ><RxCross2 fontSize="35px" /></h1>
                     </div>
-                    <div className="border-t pt-6"> </div>
+                    <div className={cn("border-t pt-6")}> </div>
                     {status && (
-                        <div className="mb-8">
-                            <ul className="space-y-4">
+                        <div className={cn("mb-8")}>
+                            <ul className={cn("space-y-4")}>
                                 {navItems.map((item) => (
                                     <li key={item.name}>
                                         <NavLink
                                             to={item.path}
                                             onClick={() => setIsOpen(false)}
-                                            className={({ isActive }) => cn("flex items-center gap-3 p-3 rounded-lg transition-all duration-150", isActive ? "bg-black text-white" : "hover:bg-gray-100")} >
+                                            className={({ isActive }) => cn(`flex items-center gap-3 p-3 rounded-lg transition-all duration-150 ${isActive ? "bg-black text-white" : "hover:bg-gray-100"}`)} >
                                             {item.icon}
                                             <span>{item.name}</span>
                                         </NavLink>

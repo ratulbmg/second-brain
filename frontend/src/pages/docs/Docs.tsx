@@ -1,4 +1,4 @@
-import { cn } from '../../utils';
+import { cn } from "../../utils";
 
 const Docs: React.FC = () => {
     return (

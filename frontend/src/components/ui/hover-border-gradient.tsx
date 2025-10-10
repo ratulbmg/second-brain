@@ -1,21 +1,17 @@
-"use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { cn } from "../../utils/cn";
 
 type Direction = "TOP" | "LEFT" | "BOTTOM" | "RIGHT";
 
-export default function HoverBorderGradient({ children, containerClassName, className, as: Tag = "button", duration = 1, clockwise = true, ...props}
+export default function HoverBorderGradient({ children, containerClassName, className, as: Tag = "button", duration = 1, clockwise = true, ...props }
   : React.PropsWithChildren<
-  {
-    as?: React.ElementType;
-    containerClassName?: string;
-    className?: string;
-    duration?: number;
-    clockwise?: boolean;
-  } & React.HTMLAttributes<HTMLElement>>)
-   
-  {
+    {
+      as?: React.ElementType;
+      containerClassName?: string;
+      className?: string;
+      duration?: number;
+      clockwise?: boolean;
+    } & React.HTMLAttributes<HTMLElement>>) {
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
 
@@ -53,18 +49,10 @@ export default function HoverBorderGradient({ children, containerClassName, clas
     <Tag
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={cn(
-        "relative flex rounded-full bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center justify-center overflow-visible p-px w-fit",
-        containerClassName
-      )}
+      className={`relative flex rounded-full bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center justify-center overflow-visible p-px w-fit ${containerClassName}`}
       {...props}
     >
-      <div
-        className={cn(
-          "w-auto text-white z-10 bg-black px-4 py-2 rounded-[inherit]",
-          className
-        )}
-      >
+      <div className={`w-auto text-white z-10 bg-black px-4 py-2 rounded-[inherit] ${className}`} >
         {children}
       </div>
       <motion.div

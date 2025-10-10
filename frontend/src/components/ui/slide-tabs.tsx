@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { cn } from "../../utils";
 
 type Position = { left: number; width: number; opacity: number };
 
@@ -25,7 +26,7 @@ export const SlideTabs: React.FC = () => {
           setPosition({ left: selectedTab.offsetLeft, width, opacity: 1 });
         }
       }}
-      className="relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1 dark:border-white dark:bg-neutral-800"
+      className={cn("relative mx-auto flex w-fit rounded-full border-2 border-black bg-white p-1 dark:border-white dark:bg-neutral-800")}
     >
     {["All Collection", "Social Post", "Videos", "Docs", "Links"].map((tab, i) => (
         <ForwardedTab
@@ -66,7 +67,7 @@ const Tab: React.ForwardRefRenderFunction<HTMLLIElement, TabProps> = (
         const { width } = localRef.current.getBoundingClientRect();
         setPosition({ left: localRef.current.offsetLeft, width, opacity: 1 });
       }}
-      className="relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
+      className={cn("relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base")}
     >
       {children}
     </li>
@@ -80,6 +81,6 @@ type CursorProps = { position: Position };
 const Cursor: React.FC<CursorProps> = ({ position }) => (
   <motion.li
     animate={{ ...position }}
-    className="absolute z-0 h-7 rounded-full bg-black dark:bg-white md:h-12"
+    className={cn("absolute z-0 h-7 rounded-full bg-black dark:bg-white md:h-12")}
   />
 );

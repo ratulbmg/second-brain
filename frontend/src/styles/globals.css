@@ -22,6 +22,7 @@
 :root{
     --background: oklch(98% 0 0);
     --background-light: oklch(91% 0 0);
+    --background-modal: #00000045;
     --text-100: var(--color-zinc-500);
     --text-200: var(--color-zinc-700);
     --text-300: var(--color-zinc-900);
@@ -30,6 +31,7 @@
 .dark {
     --background-dark: oklch(22% 0 0);
     --background-dark-light: oklch(35% 0 0);
+    --background-modal-dark: #ffffff30;
     --text-dark-100: var(--color-zinc-50);
     --text-dark-200: var(--color-zinc-200);
     --text-dark-300: var(--color-zinc-300);
@@ -53,6 +55,9 @@
     --color-theme-toggle-background-dark-light: var(--background-dark-light);
     --color-theme-toggle-icon-background: var(--background);
     --color-theme-toggle-icon-background-dark: var(--background-dark);
+    /* modal background */
+    --color-modal-background: var(--background-modal);
+    --color-modal-background-dark: var(--background-modal-dark);
     /* home background */
     --color-home-background: var(--background);
     --color-home-background-dark: var(--background-dark);

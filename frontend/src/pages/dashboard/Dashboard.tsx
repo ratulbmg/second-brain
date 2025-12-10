@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RiAddCircleLine, IoIosArrowDroprightCircle } from '../../components/icons';
 import { cn } from "../../utils";
-import { Modal, ContentCreate } from "../../components";
+import { ContentCreateModal } from "../../components";
 
 
 const Dashboard: React.FC = () => {
@@ -18,9 +18,11 @@ const Dashboard: React.FC = () => {
                     <div>
                         <RiAddCircleLine className={cn(' text-[#898989] text-[5em]')} onClick={() => setCreateContentIsOpen(true)} />
                     </div>
-                    <Modal isOpen={createContentIsOpen} onClose={() => setCreateContentIsOpen(false)} onSubmit={() => setCreateContentIsOpen(false)}>
-                        <ContentCreate onSuccess={() => setCreateContentIsOpen(false)} />
-                    </Modal>
+                    <ContentCreateModal
+                        isOpen={createContentIsOpen}
+                        onClose={() => setCreateContentIsOpen(false)}
+                        onSuccess={() => setCreateContentIsOpen(false)}
+                    />
                 </div>
             </div>
         </>

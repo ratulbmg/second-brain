@@ -4,8 +4,8 @@ import Modal from './ui/Modal';
 import ThemeToggle, { type Theme } from './ui/ThemeToggle';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-import SignInUp from './Feature/SignInUpModal'
-import ContentCreate from './Feature/ContentCreateModal'
+import SignInUpModal from './Feature/SignInUpModal'
+import ContentCreateModal from './Feature/ContentCreateModal'
 import LoadingSpinner from './ui/LoadingSpinner';
 import Select from './ui/Select';
 import ContentEditModal from './Feature/ContentEditModal';
@@ -20,8 +20,8 @@ export {
     ThemeToggle, type Theme,
     Header,
     Footer,
-    SignInUp,
-    ContentCreate,
+    SignInUpModal,
+    ContentCreateModal,
     LoadingSpinner,
     Select,
     ContentEditModal,

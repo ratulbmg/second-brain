@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { cn } from "../../utils";
-import { Modal, ContentEdit, DeleteModal } from "../index";
+import { ContentEditModal, DeleteModal} from "../index";
 import { MdDelete, MdEdit, MdLink } from "../icons";
 import { HiExternalLink } from "../icons";
 import type { ContentResponse } from "../../redux/api/contentApi";
@@ -93,30 +93,18 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
             </div>
 
             {/* Delete Modal */}
-            <Modal
+            <DeleteModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
-                onSubmit={() => { }}
-            >
-                <DeleteModal
-                    contentId={content.id}
-                    onCancel={() => setIsDeleteModalOpen(false)}
-                    onSuccess={() => setIsDeleteModalOpen(false)}
-                />
-            </Modal>
+                contentId={content.id}
+            />
 
             {/* Edit Modal */}
-            <Modal
+            <ContentEditModal
                 isOpen={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}
-                onSubmit={() => { }}
-            >
-                <ContentEdit
-                    content={content}
-                    onCancel={() => setIsEditModalOpen(false)}
-                    onSuccess={() => setIsEditModalOpen(false)}
-                />
-            </Modal>
+                content={content}
+            />
         </>
     );
 };

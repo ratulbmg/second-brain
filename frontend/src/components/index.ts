@@ -4,14 +4,14 @@ import Modal from './ui/Modal';
 import ThemeToggle, { type Theme } from './ui/ThemeToggle';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-import SignInUp from './Forms/SignInUpModal'
-import ContentCreate from './Forms/ContentCreateModal'
+import SignInUp from './Feature/SignInUpModal'
+import ContentCreate from './Feature/ContentCreateModal'
 import LoadingSpinner from './ui/LoadingSpinner';
 import Select from './ui/Select';
-import ContentEdit from './Forms/ContentEditModal';
-import DeleteModal from './ui/DeleteModal';
+import ContentEditModal from './Feature/ContentEditModal';
+import DeleteModal from './Feature/DeleteModal';
 import Pagination from './ui/Pagination';
-import ContentCard from './ui/ContentCard';
+import ContentCard from './Feature/ContentCard';
 
 export {
     Button,
@@ -24,7 +24,7 @@ export {
     ContentCreate,
     LoadingSpinner,
     Select,
-    ContentEdit,
+    ContentEditModal,
     DeleteModal,
     Pagination,
     ContentCard,

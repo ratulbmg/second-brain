@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { cn } from "../../utils";
 import { ContentEditModal, DeleteModal} from "../index";
-import { MdDelete, MdEdit, MdLink } from "../icons";
-import { HiExternalLink } from "../icons";
+import { MdDeleteOutline, MdOutlineEdit, FaLink, TbExternalLink } from "../icons";
 import type { ContentResponse } from "../../redux/api/contentApi";
 
 interface ContentCardProps {
@@ -35,15 +34,17 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
                         onClick={() => setIsDeleteModalOpen(true)}
                         className={cn("p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors")}
                         aria-label="Delete content"
+                        title="Delete content"
                     >
-                        <MdDelete className="text-red-600 dark:text-red-400 text-xl" />
+                        <MdDeleteOutline className="text-red-600 dark:text-red-400 text-xl" />
                     </button>
                     <button
                         onClick={() => setIsEditModalOpen(true)}
                         className={cn("p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors")}
                         aria-label="Edit content"
+                        title="Edit content"
                     >
-                        <MdEdit className="text-blue-600 dark:text-blue-400 text-xl" />
+                        <MdOutlineEdit className="text-blue-600 dark:text-blue-400 text-xl" />
                     </button>
                 </div>
 
@@ -52,8 +53,9 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
                         className={cn("p-2 rounded-lg transition-colors")}
                         aria-label="Shareable link"
                         disabled
+                        title="Shareable link"
                     >
-                        <MdLink className={cn(
+                        <FaLink className={cn(
                             "text-xl",
                             hasLink ? "text-green-500 dark:text-green-400" : "text-gray-400 dark:text-gray-600"
                         )} />
@@ -63,10 +65,10 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
                 {/* Content */}
                 <div className="mt-8 space-y-4">
                     <div>
-                        <h3 className={cn("text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2")}>
-                            {truncateText(content.title, 60)}
+                        <h3 className={cn("text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2")} title={content.title}>
+                            {truncateText(content.title, 30)}
                         </h3>
-                        <p className={cn("text-sm text-gray-500 dark:text-gray-400 line-clamp-3")}>
+                        <p className={cn("text-sm h-15 text-gray-500 dark:text-gray-400 line-clamp-3")} title={content.content}>
                             {truncateText(content.content, 150)}
                         </p>
                     </div>
@@ -78,15 +80,16 @@ const ContentCard: React.FC<ContentCardProps> = ({ content }) => {
                         <button
                             onClick={handleOpenUrl}
                             disabled={!content.url}
+                            title="Open link in separate tab"
                             className={cn(
                                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                                 content.url
-                                    ? "bg-black hover:bg-blue-700 text-white"
+                                    ? "bg-gray-500 hover:bg-blue-700 text-white"
                                     : "bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
                             )}
                         >
                             <span>Open Link</span>
-                            <HiExternalLink className="text-base" />
+                            <TbExternalLink className="text-base" />
                         </button>
                     </div>
                 </div>

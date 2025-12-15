@@ -19,8 +19,8 @@ const Header: React.FC = () => {
     
     const navItems = [
         { name: "All Collection", path: "/dashboard/all", active: true },
-        { name: "Social Post", path: "/dashboard/twitter", active: true},
-        { name: "Videos", path: "/dashboard/youtube", active: true},
+        { name: "Twitter", path: "/dashboard/twitter", active: true},
+        { name: "Youtube", path: "/dashboard/youtube", active: true},
         { name: "Docs", path: "/dashboard/docs", active: true},
         { name: "Links", path: "/dashboard/links", active: true}
     ]
